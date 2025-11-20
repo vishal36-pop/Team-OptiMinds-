@@ -1,0 +1,61 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+
+% Header/Footer Setup
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{OptiMinds: Project Formulation}
+\rhead{Optimization Methods}
+\cfoot{\thepage}
+
+\title{\textbf{Problem Formulation: \\ Robust Economic Dispatch with Uncertain Demand}}
+\author{Team OptiMinds \\ \small{Abhinav Reddy Alwala, Lohith Pasumarthi, Vishal Reddy Kondakindi}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem Definition}
+We address the problem of *Economic Dispatch* under uncertainty. The objective is to allocate production loads to a set of $n$ parallel machines to minimize total quadratic operating costs while satisfying stochastic demand.
+
+\subsection{Notation}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{l l}
+    \toprule
+    \textbf{Symbol} & \textbf{Description} \\
+    \midrule
+    $k \in \{1, \dots, n\}$ & Index for machines \\
+    $x_k$ & Decision variable: Production quantity of machine $k$ \\
+    $a_k, b_k, c_k$ & Cost coefficients ($a_k > 0$ implies convexity) \\
+    $\ell_k, u_k$ & Minimum and maximum capacity limits for machine $k$ \\
+    $D$ & Random variable representing Demand (Mean $\mu$, Variance $\sigma^2$) \\
+    $\alpha$ & Maximum allowable risk (failure probability) \\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Mathematical Model}
+
+\subsection{Objective Function}
+The operating cost of each machine is modeled as a strictly convex quadratic function. We seek to minimize the total system cost:
+\begin{equation}
+    \min_{\mathbf{x}} f(\mathbf{x}) = \sum_{k=1}^{n} \left( a_k x_k^2 + b_k x_k + c_k \right)
+\end{equation}
+
+\subsection{Constraints}
+The system is subject to physical capacity limits and a probabilistic demand requirement:
+
+\begin{align}
+    \textbf{Capacity:} & \quad \ell_k \le x_k \le u_k \quad \forall k = 1, \dots, n \\
+    \textbf{Reliability:} & \quad \mathbb{P}\left( \sum_{k=1}^{n} x_k \ge D \right) \ge 1 - \alpha
+\end{align}
+
