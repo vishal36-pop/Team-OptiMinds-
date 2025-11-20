@@ -59,3 +59,23 @@ The system is subject to physical capacity limits and a probabilistic demand req
     \textbf{Reliability:} & \quad \mathbb{P}\left( \sum_{k=1}^{n} x_k \ge D \right) \ge 1 - \alpha
 \end{align}
 
+
+\section{Deterministic Reformulation}
+To solve the problem using convex optimization, the probabilistic constraint (3) is converted into a deterministic linear constraint:
+\begin{equation}
+    \sum_{k=1}^{n} x_k \ge D_{\text{eff}}
+\end{equation}
+where $D_{\text{eff}}$ is the effective demand target. We analyze two formulations for $D_{\text{eff}}$:
+
+\subsection{Model 1: Gaussian Approximation (Standard)}
+Assuming $D \sim \mathcal{N}(\mu, \sigma^2)$, we use the inverse CDF of the standard normal distribution ($\Phi^{-1}$):
+\begin{equation}
+    D_{\text{eff}}^{\text{Normal}} = \mu + \Phi^{-1}(1-\alpha)\sigma
+\end{equation}
+
+\subsection{Model 2: Distributionally Robust (Proposed Innovation)}
+Assuming only the mean and variance are known (distributional ambiguity), we use the **One-Sided Chebyshev Inequality** to guarantee reliability for \textit{any} underlying distribution.
+\begin{equation}
+    D_{\text{eff}}^{\text{Robust}} = \mu + \sqrt{\frac{1-\alpha}{\alpha}}\sigma
+\end{equation}
+\textit{Note: Model 2 imposes a strictly higher production target than Model 1, reflecting the "Price of Robustness."}
