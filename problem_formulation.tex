@@ -79,3 +79,51 @@ Assuming only the mean and variance are known (distributional ambiguity), we use
     D_{\text{eff}}^{\text{Robust}} = \mu + \sqrt{\frac{1-\alpha}{\alpha}}\sigma
 \end{equation}
 \textit{Note: Model 2 imposes a strictly higher production target than Model 1, reflecting the "Price of Robustness."}
+
+\section{KKT Conditions (Standard Form Analysis)}
+We analyze the optimality conditions for the deterministic problem. First, we convert all constraints into the standard form $g_i(\mathbf{x}) \le 0$.
+
+\subsection{Standard Form Transformation}
+\begin{enumerate}
+    \item \textbf{Demand Constraint:} $\sum x_k \ge D_{\text{eff}} \implies D_{\text{eff}} - \sum_{k=1}^{n} x_k \le 0$
+    \item \textbf{Max Capacity:} $x_k \le u_k \implies x_k - u_k \le 0$
+    \item \textbf{Min Capacity:} $x_k \ge \ell_k \implies \ell_k - x_k \le 0$
+\end{enumerate}
+
+Let the Lagrange multipliers be $\mu_0$ (demand), $\mu_{u,k}$ (upper bounds), and $\mu_{\ell,k}$ (lower bounds).
+
+\subsection{The Lagrangian}
+\begin{equation}
+    \mathcal{L}(\mathbf{x}, \boldsymbol{\mu}) = \sum_{k=1}^{n}(a_k x_k^2 + b_k x_k) + \mu_0 \left( D_{\text{eff}} - \sum_{k=1}^{n} x_k \right) + \sum_{k=1}^{n} \mu_{u,k}(x_k - u_k) + \sum_{k=1}^{n} \mu_{\ell,k}(\ell_k - x_k)
+\end{equation}
+
+\subsection{Necessary and Sufficient Conditions}
+Since the problem is convex, the KKT conditions are necessary and sufficient for the global optimum $\mathbf{x}^*$.
+
+\paragraph{1. Primal Feasibility ($g_i(\mathbf{x}^*) \le 0$)}
+\begin{align}
+    D_{\text{eff}} - \sum_{k=1}^{n} x_k^* &\le 0 \\
+    x_k^* - u_k &\le 0 \quad \forall k \\
+    \ell_k - x_k^* &\le 0 \quad \forall k
+\end{align}
+
+\paragraph{2. Dual Feasibility ($\mu \ge 0$)}
+\begin{equation}
+    \mu_0 \ge 0, \quad \mu_{u,k} \ge 0, \quad \mu_{\ell,k} \ge 0 \quad \forall k
+\end{equation}
+
+\paragraph{3. Stationarity ($\nabla_\mathbf{x} \mathcal{L} = 0$)}
+For each machine $k$, the gradient vanishes:
+\begin{equation}
+    (2a_k x_k^* + b_k) - \mu_0 + \mu_{u,k} - \mu_{\ell,k} = 0
+\end{equation}
+\textit{Interpretation: For unconstrained machines ($\mu_{u,k}=\mu_{\ell,k}=0$), the marginal cost $2a_k x_k^* + b_k$ must equal the system shadow price $\mu_0$.}
+
+\paragraph{4. Complementary Slackness ($\mu_i g_i(\mathbf{x}^*) = 0$)}
+\begin{align}
+    \mu_0 \left( D_{\text{eff}} - \sum_{k=1}^{n} x_k^* \right) &= 0 \\
+    \mu_{u,k} (x_k^* - u_k) &= 0 \quad \forall k \\
+    \mu_{\ell,k} (\ell_k - x_k^*) &= 0 \quad \forall k
+\end{align}
+
+\end{document}
