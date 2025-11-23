@@ -24,7 +24,7 @@
 \maketitle
 
 \section{Problem Definition}
-We address the problem of *Economic Dispatch* under uncertainty. The objective is to allocate production loads to a set of $n$ parallel machines to minimize total quadratic operating costs while satisfying stochastic demand.
+We address the problem of **Economic Dispatch** under uncertainty. The objective is to allocate production loads to a set of $n$ parallel machines to minimize total quadratic operating costs while satisfying stochastic demand.
 
 \subsection{Notation}
 \begin{table}[h]
@@ -59,26 +59,77 @@ The system is subject to physical capacity limits and a probabilistic demand req
     \textbf{Reliability:} & \quad \mathbb{P}\left( \sum_{k=1}^{n} x_k \ge D \right) \ge 1 - \alpha
 \end{align}
 
-
 \section{Deterministic Reformulation}
-To solve the problem using convex optimization, the probabilistic constraint (3) is converted into a deterministic linear constraint:
-\begin{equation}
-    \sum_{k=1}^{n} x_k \ge D_{\text{eff}}
-\end{equation}
-where $D_{\text{eff}}$ is the effective demand target. We analyze two formulations for $D_{\text{eff}}$:
+
+To solve the stochastic service-level constraint using convex optimization, we
+convert the chance constraint into a deterministic inequality:
+\[
+    \sum_{k=1}^{n} x_k \ge D_{\text{eff}},
+\]
+where $D_{\text{eff}}$ is the effective demand threshold.
 
 \subsection{Model 1: Gaussian Approximation (Standard)}
-Assuming $D \sim \mathcal{N}(\mu, \sigma^2)$, we use the inverse CDF of the standard normal distribution ($\Phi^{-1}$):
-\begin{equation}
-    D_{\text{eff}}^{\text{Normal}} = \mu + \Phi^{-1}(1-\alpha)\sigma
-\end{equation}
+
+Starting from the probabilistic requirement:
+\[
+    \mathbb{P}(D \le S) \ge 1 - \alpha, 
+    \qquad S = \sum_{k=1}^n x_k,
+\]
+we standardize the demand random variable:
+\[
+    Z = \frac{D - \mu}{\sigma},
+    \qquad 
+    t = \frac{S - \mu}{\sigma}.
+\]
+
+Thus,
+\[
+    \mathbb{P}(Z \le t) \ge 1 - \alpha
+    \quad\Longleftrightarrow\quad
+    \mathbb{P}(Z > t) \le \alpha.
+\]
+
+By definition of the upper-tail quantile \(z_\alpha\) of the standard normal
+distribution:
+\[
+    \mathbb{P}(Z > z_\alpha) = \alpha,
+\]
+we obtain the deterministic requirement:
+\[
+    t \ge z_\alpha
+    \quad \Longrightarrow \quad
+    S \ge \mu + z_\alpha \sigma.
+\]
+
+Hence the effective demand threshold under Gaussian demand is:
+\[
+    D_{\text{eff}}^{\text{Normal}}
+    = \mu + z_\alpha \sigma.
+\]
 
 \subsection{Model 2: Distributionally Robust (Proposed Innovation)}
-Assuming only the mean and variance are known (distributional ambiguity), we use the **One-Sided Chebyshev Inequality** to guarantee reliability for \textit{any} underlying distribution.
-\begin{equation}
-    D_{\text{eff}}^{\text{Robust}} = \mu + \sqrt{\frac{1-\alpha}{\alpha}}\sigma
-\end{equation}
-\textit{Note: Model 2 imposes a strictly higher production target than Model 1, reflecting the "Price of Robustness."}
+
+When only the mean and variance are known, without assuming normality, we use
+the One-Sided Chebyshev Inequality:
+\[
+    \mathbb{P}(D - \mu \ge t\sigma) \le \frac{1}{1+t^2}.
+\]
+
+Imposing the reliability level:
+\[
+    \frac{1}{1+t^2} = \alpha
+    \quad \Rightarrow \quad
+    t = \sqrt{\frac{1-\alpha}{\alpha}}.
+\]
+
+Thus the distributionally robust effective demand becomes:
+\[
+    D_{\text{eff}}^{\text{Robust}}
+    = \mu + \sqrt{\frac{1-\alpha}{\alpha}} \, \sigma.
+\]
+
+\textit{Model 2 is more conservative, reflecting the Price of Robustness.}
+
 
 \section{KKT Conditions (Standard Form Analysis)}
 We analyze the optimality conditions for the deterministic problem. First, we convert all constraints into the standard form $g_i(\mathbf{x}) \le 0$.
