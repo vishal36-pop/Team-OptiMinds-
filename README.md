@@ -1,33 +1,98 @@
-# README.md
+# Robust Economic Dispatch Under Uncertain Demand
 
 ## Team Name
-OptiMinds
+**OptiMinds**
 
-## Members
-- Abhinav Reddy Alwala – BT2024236
-- Lohith Pasumarthi – BT2024248
-- Vishal Reddy Kondakindi – BT2024102
+## Team Members
+- **Abhinav Reddy Alwala** – BT2024236
+- **Lohith Pasumarthi** – BT2024248
+- **Vishal Reddy Kondakindi** – BT2024102
 
 ## Project Title
-Robust Economic Dispatch Under Uncertain Demand
+**Robust Economic Dispatch Under Uncertain Demand**
 
 ---
 
-## Overview
-This project focuses on building an optimization model that decides how much each machine in a production system should produce when customer demand is uncertain. Each machine has its own operating cost and a limit on how much it can produce. The goal of our model is to meet demand reliably while keeping the total production cost as low as possible.
+## Project Description
+This project develops an optimization model to determine optimal production levels across multiple machines in a manufacturing system under uncertain customer demand. Each machine has unique operating costs (quadratic cost curves) and capacity constraints. The model minimizes total production costs while ensuring high reliability in meeting stochastic demand.
 
-To handle uncertainty, we compare two different reliability strategies:
+We compare two reliability approaches:
 
-1. **Normal (Statistical Quantile) Method**  
-   Assumes demand behaves like a bell-curve (Gaussian).  
-   This method adds a moderate safety buffer.
+1. **Normal (Gaussian) Method**  
+   Assumes demand follows a bell-curve distribution and uses statistical quantiles to set safety buffers.
 
 2. **Robust (Distribution-Free) Method**  
-   Makes no assumptions about the shape of the demand distribution.  
-   Only uses the mean and variance of demand.  
-   This method creates a larger safety buffer to ensure worst-case protection.
+   Makes no distributional assumptions beyond mean and variance, using Chebyshev/Cantelli inequalities for worst-case guarantees.
 
-Throughout the project, we analyze how these two approaches impact the total cost, machine usage, and reliability.
+The project quantifies the "price of robustness" – the cost premium for protection against distributional uncertainty.
+
+---
+
+## Libraries Used
+
+### Core Dependencies
+- **NumPy** (≥1.21.0) – Array operations and numerical computing
+- **pandas** (≥1.3.0) – Data manipulation and tabular display
+- **Matplotlib** (≥3.4.0) – Data visualization and plotting
+- **SciPy** (≥1.7.0) – Statistical distributions and quantile functions
+- **CVXPY** (≥1.2.0) – Convex optimization modeling framework
+
+### Solver
+- **OSQP** (installed with CVXPY) – Operator Splitting Quadratic Program solver
+
+---
+
+## Setup Instructions
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/vishal36-pop/Team-OptiMinds-.git
+cd Team-OptiMinds-
+```
+
+### 2. Create Virtual Environment
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# Windows:
+venv\Scripts\activate
+
+# Mac/Linux:
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Run the Notebook
+```bash
+# Open Jupyter Notebook
+jupyter notebook Opti.ipynb
+
+# OR use VS Code with Jupyter extension
+code Opti.ipynb
+```
+
+### 5. Generate LaTeX Report (Optional)
+```bash
+pdflatex problem_formulation.tex
+```
+
+---
+
+## Project Structure
+```
+Team-OptiMinds-/
+├── Opti.ipynb                    # Main analysis notebook
+├── problem_formulation.tex       # LaTeX report document
+├── requirements.txt              # Python dependencies
+├── README.md                     # This file
+└── (generated plots)             # PNG files for report
+```
 
 ---
 
