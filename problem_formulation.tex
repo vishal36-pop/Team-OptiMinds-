@@ -7,6 +7,7 @@
 \usepackage{booktabs}
 \usepackage{hyperref}
 \usepackage{fancyhdr}
+\usepackage{float}
 
 % Header/Footer Setup
 \pagestyle{fancy}
@@ -24,25 +25,56 @@
 \maketitle
 
 \section{Problem Definition}
-We address the problem of **Economic Dispatch** under uncertainty. The objective is to allocate production loads to a set of $n$ parallel machines to minimize total quadratic operating costs while satisfying stochastic demand.
+
+We study the Economic Dispatch problem under uncertain demand, where a set of 
+$n$ parallel machines must be allocated production loads in a cost-efficient and 
+reliable manner. Each machine exhibits a convex quadratic operating cost and is 
+restricted by both minimum and maximum capacity limits. The goal is to determine 
+how much each machine should produce so that the total operating cost is 
+minimized while ensuring that demand is met with a high level of reliability.
+
+Unlike classical formulations that assume fixed and perfectly known demand, our 
+model explicitly incorporates randomness through a probabilistic service-level 
+constraint. This leads to a convex yet uncertainty-aware optimization problem 
+that captures the trade-off between economic efficiency and reliability.
+
+\subsection{Motivation}
+
+Real-world manufacturing systems rarely operate under deterministic conditions. 
+Customer demand fluctuates due to market variability, supply-chain delays, and 
+forecasting errors. Relying solely on expected demand can therefore result in 
+underproduction, unmet service levels, or excessive reliance on expensive 
+emergency production.
+
+This motivates the need for an optimization framework that:
+\begin{itemize}
+    \item incorporates random demand directly into the formulation,
+    \item enforces a target reliability level $1-\alpha$,
+    \item respects machine-specific capacity constraints, and
+    \item remains convex and computationally tractable.
+\end{itemize}
+
+By reformulating chance constraints into deterministic equivalents, our model 
+produces reliable and cost-efficient production plans suitable for practical 
+industrial settings.
 
 \subsection{Notation}
-\begin{table}[h]
+
+\begin{table}[H]
     \centering
     \begin{tabular}{l l}
     \toprule
     \textbf{Symbol} & \textbf{Description} \\
     \midrule
-    $k \in \{1, \dots, n\}$ & Index for machines \\
-    $x_k$ & Decision variable: Production quantity of machine $k$ \\
-    $a_k, b_k, c_k$ & Cost coefficients ($a_k > 0$ implies convexity) \\
-    $\ell_k, u_k$ & Minimum and maximum capacity limits for machine $k$ \\
-    $D$ & Random variable representing Demand (Mean $\mu$, Variance $\sigma^2$) \\
-    $\alpha$ & Maximum allowable risk (failure probability) \\
+    $k \in \{1,\dots,n\}$ & Machine index \\
+    $x_k$ & Production quantity allocated to machine $k$ \\
+    $a_k, b_k, c_k$ & Cost parameters of machine $k$ ($a_k>0$ ensures convexity) \\
+    $\ell_k, u_k$ & Minimum and maximum capacity limits of machine $k$ \\
+    $D$ & Random demand with mean $\mu$ and variance $\sigma^2$ \\
+    $\alpha$ & Acceptable violation probability (risk level) \\
     \bottomrule
     \end{tabular}
 \end{table}
-
 \section{Mathematical Model}
 
 \subsection{Objective Function}
@@ -150,7 +182,7 @@ Hence the effective demand threshold under Gaussian demand is:
     = \mu + z_\alpha \sigma.
 \]
 
-\subsection{Model 2: Distributionally Robust (Proposed Innovation)}
+\subsection{Model 2: Distributionally Robust(no assumption on the distribution of )}
 
 When only the mean and variance are known, without assuming normality, we use
 the One-Sided Chebyshev Inequality:
@@ -174,7 +206,7 @@ Thus the distributionally robust effective demand becomes:
 \textit{Model 2 is more conservative, reflecting the Price of Robustness.}
 
 
-\section{KKT Conditions (Standard Form Analysis)}
+\section{KKT Conditions}
 We analyze the optimality conditions for the deterministic problem. First, we convert all constraints into the standard form $g_i(\mathbf{x}) \le 0$.
 
 \subsection{Standard Form Transformation}
