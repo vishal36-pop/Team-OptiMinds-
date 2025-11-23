@@ -50,6 +50,49 @@ The operating cost of each machine is modeled as a strictly convex quadratic fun
 \begin{equation}
     \min_{\mathbf{x}} f(\mathbf{x}) = \sum_{k=1}^{n} \left( a_k x_k^2 + b_k x_k + c_k \right)
 \end{equation}
+\subsection{Marginal Cost Analysis}
+
+\paragraph{Definition.}
+The \emph{marginal cost} of machine $k$ is defined as the rate at which its total
+operating cost increases with respect to its production level. Formally, it is
+the first derivative of the cost function with respect to $x_k$:
+\[
+MC_k(x_k) = \frac{dC_k(x_k)}{dx_k}.
+\]
+For each machine $k$, the total operating cost is modeled as
+\[
+C_k(x_k) = \tfrac{1}{2}a_k x_k^2 + b_k x_k + c_k,
+\qquad a_k > 0.
+\]
+
+The marginal cost is obtained by differentiating the cost function with respect to the production level $x_k$:
+\[
+\frac{dC_k}{dx_k}
+= \frac{d}{dx_k}\left( \tfrac{1}{2}a_k x_k^2 + b_k x_k + c_k \right)
+= a_k x_k + b_k.
+\]
+
+\paragraph{Interpretation.}
+The marginal cost is linear because:
+\begin{itemize}
+    \item the quadratic term $\tfrac{1}{2}a_k x_k^2$ represents increasing inefficiency or wear as the machine operates at higher output levels;
+    \item the derivative of a quadratic term is linear, leading to the component $a_k x_k$;
+    \item the term $b_k$ corresponds to constant per-unit operating costs (such as energy or materials);
+    \item the fixed cost $c_k$ does not influence marginal cost since its derivative is zero.
+\end{itemize}
+
+Thus, the incremental cost of producing one additional unit on machine $k$ is
+\[
+MC_k(x_k) = a_k x_k + b_k.
+\]
+
+\paragraph{Remark on Minimum Capacity.}
+In our formulation, the lower capacity bound is typically set to
+\[
+\ell_k = 0,
+\]
+which reflects the practical interpretation that a machine may be fully shut down (i.e., produce nothing) when it is not required.
+
 
 \subsection{Constraints}
 The system is subject to physical capacity limits and a probabilistic demand requirement:
