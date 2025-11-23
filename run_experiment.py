@@ -56,13 +56,13 @@ def solve_dispatch(system: ProductionSystem, mu_D: float, sigma_D: float,
     total_cost = float(np.sum(system.alpha * dispatch**2 + system.beta * dispatch + system.gamma))
     return {
         "status": prob.status,
-        "x": dispatch.tolist(),
-        "cost": total_cost,
-        "objective": prob.value,
+        "x": [float(v) for v in dispatch.tolist()],
+        "cost": float(total_cost),
+        "objective": float(prob.value),
         "D_eff": float(D_eff),
-        "lambda": constraints[0].dual_value,
-        "nu_u": constraints[1].dual_value.tolist(),
-        "nu_l": constraints[2].dual_value.tolist(),
+        "lambda": float(constraints[0].dual_value),
+        "nu_u": [float(v) for v in constraints[1].dual_value.tolist()],
+        "nu_l": [float(v) for v in constraints[2].dual_value.tolist()],
     }
 
 
@@ -79,8 +79,8 @@ def main():
     buffer_robust = robust["D_eff"] - mu_D
     extra_buffer = buffer_robust - buffer_normal
 
-    var_cost_normal = normal["objective"]
-    var_cost_robust = robust["objective"]
+    var_cost_normal = float(normal["objective"])
+    var_cost_robust = float(robust["objective"])
     fixed_cost = float(np.sum(system.gamma))
 
     total_normal = var_cost_normal + fixed_cost
@@ -88,7 +88,7 @@ def main():
     premium_abs = total_robust - total_normal
     premium_pct = (premium_abs / total_normal) * 100 if total_normal > 0 else float("nan")
 
-    lambda_shift = robust["lambda"] - normal["lambda"]
+    lambda_shift = float(robust["lambda"] - normal["lambda"])
 
     results = {
         "scenario": {
