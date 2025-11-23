@@ -31,6 +31,7 @@ We solve both formulations using CVXPY, study their outputs, analyze shadow pric
 
 ## Mathematical Formulation
 
+<<<<<<< HEAD
 ### Symbol Glossary
 | Symbol | Meaning | Notes / Code Name |
 |--------|---------|-------------------|
@@ -96,6 +97,47 @@ Meaning all unconstrained machines share the same marginal cost equal to shadow 
 
 
 
+=======
+### Decision Variables
+\(x_i\): output of machine \(i\), with \(0 \le x_i \le u_i\)
+
+### Cost Function
+\[
+C_i(x_i) = \alpha_i x_i^2 + \beta_i x_i + \gamma_i
+\]
+
+### Demand Modeling
+Random demand \(D\) has:
+- Mean: \(\mu_D\)  
+- Standard deviation: \(\sigma_D\)  
+
+We convert stochastic demand into a deterministic target:
+\[
+D_{\text{eff}} = \mu_D + B\sigma_D
+\]
+
+**Where:**
+- Normal mode: \(B = z_p\)  
+- Robust mode: \(B = \sqrt{\tfrac{p}{1-p}}\)
+
+### Optimization Problem
+\[
+\min_{x} \sum_{i=1}^n (\alpha_i x_i^2 + \beta_i x_i)
+\]
+
+Subject to:
+\[
+\sum x_i \ge D_{\text{eff}}, \qquad 0 \le x_i \le u_i
+\]
+
+### Dual Variables
+- **\(\lambda\):** Shadow price of demand (cost of requiring 1 more reliable unit)
+- **\(\nu_i^u\):** Indicates if machine \(i\) is at full capacity
+- **KKT residuals:** Validate optimality
+
+---
+
+>>>>>>> 4c0474d37f3bda4f0ef0b20fad00be09ee4a8f02
 ## Reliability Modeling Modes
 
 ### Normal Mode
