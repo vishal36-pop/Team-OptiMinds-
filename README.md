@@ -4,9 +4,9 @@
 OptiMinds
 
 ## Members
-- Abhinav Reddy Alwala – <BT2024236>
-- Lohith Pasumarthi – <BT2024248>
-- Vishal Reddy Kondakindi – <BT2024102>
+- Abhinav Reddy Alwala – BT2024236
+- Lohith Pasumarthi – BT2024248
+- Vishal Reddy Kondakindi – BT2024102
 
 ## Project Title
 Robust Economic Dispatch Under Uncertain Demand
